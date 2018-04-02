@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcl.dao.UserCaidanMapper">
+    <resultMap type="UserCaidan" id="userCaidanResult">
+        <id column="mId" property="mId" jdbcType="INTEGER"/>
+        <result column="mName" property="mName" jdbcType="VARCHAR"/>
+        <result column="pId" property="pId" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="selectAll" resultMap="userCaidanResult" parameterType="int">
+        select * from user_menu limit #{page},10
+    </select>
+    <select id="selectBypId" resultMap="userCaidanResult" parameterType="int">
+        select * from user_menu where pId = #{pId}
+    </select>
+    <select id="userCaidanCount" resultType="Integer">
+        select count(*) from user_menu
+    </select>
+    <insert id="addMenu" parameterType="UserCaidan">
+        insert into user_menu(mName,pId) value(#{mName},#{pId})
+    </insert>
+    <select id="selectBymId" resultMap="userCaidanResult" parameterType="int">
+        select * from user_menu where mId = #{mId}
+    </select>
+    <update id="updateCaidan" parameterType="UserCaidan">
+        update user_menu set mName=#{mName} where mId = #{mId}
+    </update>
+    <delete id="deleteMenus" parameterType="int">
+        delete from user_menu where mId = #{mId}
+    </delete>
+    <select id="selectBymName" resultMap="userCaidanResult" parameterType="string">
+        select * from user_menu where mName = #{mName}
+    </select>
+</mapper>

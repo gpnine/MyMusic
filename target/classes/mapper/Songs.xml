@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcl.dao.SongsMapper">
+    <resultMap type="Songs" id="songsResult">
+        <id column="sId" property="sId" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="src" property="src" jdbcType="VARCHAR" />
+        <result column="cover" property="cover" jdbcType="VARCHAR" />
+        <result column="singer" property="singer" jdbcType="VARCHAR" />
+        <result column="download" property="download" jdbcType="INTEGER" />
+        <result column="loves" property="loves" jdbcType="INTEGER" />
+        <result column="lyric" property="lyric" jdbcType="VARCHAR" />
+        <result column="updateDate" property="updateDate" jdbcType="DATE" />
+        <result column="deleteId" property="deleteId" jdbcType="INTEGER" />
+    </resultMap>
+    <select id="selectAll" resultMap="songsResult" parameterType="int">
+        select * from songs where deleteId = 0 limit #{page},10
+    </select>
+    <select id="selectDownload" resultMap="songsResult" parameterType="int">
+        select * from songs order by download desc limit #{page},10
+    </select>
+    <select id="songsCount" resultType="Integer">
+        select count(1) from songs
+    </select>
+    <select id="songSrc" resultType="String" parameterType="string">
+        select src from songs where src = #{src}
+    </select>
+    <select id="selectBySid" resultMap="songsResult" parameterType="int">
+        select * from songs where sId = #{sId}
+    </select>
+    <select id="selectLike" resultMap="songsResult" parameterType="string">
+        select * from songs where title like #{title}
+    </select>
+    <insert id="loadSong" parameterType="string">
+        insert into songs(src) value(#{src})
+    </insert>
+    <update id="clearDownloads" parameterType="int">
+        update songs set download = 0 where sId = #{sId}
+    </update>
+    <update id="updateSongs" parameterType="Songs">
+        update songs set title=#{title},singer=#{singer},updateDate=#{updateDate} where sId = #{sId}
+    </update>
+    <update id="loadCover" parameterType="Songs">
+        update songs set cover=#{cover} where sId = #{sId}
+    </update>
+    <update id="loadLyric" parameterType="Songs">
+        update songs set lyric=#{lyric} where sId = #{sId}
+    </update>
+    <update id="deleteSongs" parameterType="int">
+        update songs set deleteId = 1 where sId = #{sId}
+    </update>
+    <update id="updateDownload" parameterType="Songs">
+        update songs set download = #{download} where sId = #{sId}
+    </update>
+</mapper>

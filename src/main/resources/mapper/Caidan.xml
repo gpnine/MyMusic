@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcl.dao.CaidanMapper">
+    <resultMap type="Caidan" id="caidanResult">
+        <id column="mId" property="mId" jdbcType="INTEGER"/>
+        <result column="mName" property="mName" jdbcType="VARCHAR"/>
+        <result column="pId" property="pId" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="selectAll" resultMap="caidanResult" parameterType="int">
+        select * from menus limit #{page},10
+    </select>
+    <select id="caidanCount" resultType="Integer">
+        select count(*) from menus
+    </select>
+    <select id="selectBypId" resultMap="caidanResult" parameterType="int">
+        select * from menus where pId = #{pId}
+    </select>
+    <select id="selectBymId" resultMap="caidanResult" parameterType="int">
+        select * from menus where mId = #{mId}
+    </select>
+    <insert id="addMenu" parameterType="Caidan">
+        insert into menus(mName,pId) value(#{mName},#{pId})
+    </insert>
+    <select id="selectBymName" resultMap="caidanResult" parameterType="string">
+        select * from menus where mName = #{mName}
+    </select>
+    <update id="updateCaidan" parameterType="Caidan">
+        update menus set mName=#{mName} where mId = #{mId}
+    </update>
+    <delete id="deleteMenus" parameterType="int">
+        delete from menus where mId = #{mId}
+    </delete>
+</mapper>

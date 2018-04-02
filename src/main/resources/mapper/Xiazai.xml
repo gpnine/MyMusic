@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcl.dao.XiazaiMapper">
+    <resultMap type="Xiazai" id="xiazaiResult">
+        <id column="dId" property="dId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="song_id" property="songId" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="addDownload" parameterType="Xiazai">
+        insert into xiazai (user_id,song_id) values(#{userId},#{songId})
+    </insert>
+    <select id="selectSongsCount" resultType="Integer" parameterType="int">
+        select count(1) from xiazai where song_id = #{songId}
+    </select>
+    <select id="selectUserCount" resultMap="xiazaiResult">
+        select * from xiazai group by user_id having count(user_id) > 10
+    </select>
+</mapper>
